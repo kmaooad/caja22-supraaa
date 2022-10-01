@@ -8,6 +8,8 @@ import com.microsoft.azure.functions.HttpStatus;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Optional;
 
@@ -23,18 +25,20 @@ public class Function {
     public HttpResponseMessage run(
             @HttpTrigger(
                 name = "req",
-                methods = {HttpMethod.POST},
+                    methods = {HttpMethod.POST},
                 authLevel = AuthorizationLevel.FUNCTION)
                 HttpRequestMessage<Optional<String>> request,
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
 
-        final String name = request.getBody().orElse(null);
-
-        if (name == null) {
-            return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a name in the request body").build();
-        } else {
-            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name).build();
+        try {
+            final String bodyString = request.getBody().orElseThrow(EmptyRequestBodyException::new);
+            JSONObject object = new JSONObject(bodyString);
+            long messageId = object.getJSONObject("message").getLong("message_id");
+            return request.createResponseBuilder(HttpStatus.OK).body("message_id="+messageId).build();
+        } catch (JSONException | EmptyRequestBodyException e) {
+            return request.createResponseBuilder(HttpStatus.BAD_REQUEST)
+                    .body("Request body must not be blank and must have message object with message_id field").build();
         }
     }
 }
