@@ -42,7 +42,7 @@ public class Function {
             long messageId = object.getJSONObject("message").getLong("message_id");
 
 
-            String uri = "mongodb+srv://lab2user:1hdV7n0PGngIKpqX@cluster0.ctfiz.mongodb.net/?retryWrites=true&w=majority";
+            String uri = "mongodb://lab2user:1hdV7n0PGngIKpqX@cluster0-shard-00-00.ctfiz.mongodb.net:27017,cluster0-shard-00-01.ctfiz.mongodb.net:27017,cluster0-shard-00-02.ctfiz.mongodb.net:27017/?ssl=true&replicaSet=atlas-izepkg-shard-0&authSource=admin&retryWrites=true&w=majority";
             try (MongoClient mongoClient = MongoClients.create(uri)) {
                 MongoDatabase database = mongoClient.getDatabase("supraaa-db");
                 MongoCollection<Document> collection = database.getCollection("updates");
