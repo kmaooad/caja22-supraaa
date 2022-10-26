@@ -3,7 +3,6 @@ package edu.kmaooad.webhook;
 import edu.kmaooad.models.BotUpdate;
 import edu.kmaooad.repositories.BotUpdateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;

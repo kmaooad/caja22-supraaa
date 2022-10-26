@@ -35,7 +35,7 @@ public class Message {
 
         private String username;
 
-        private String language_code;
+        private String languageCode;
     }
 
     @Getter

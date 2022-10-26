@@ -34,7 +34,7 @@ public class BotUpdateDeserializer extends StdDeserializer<BotUpdate> {
         from.setBot(treeNode.get("message").get("from").get("is_bot").booleanValue());
         from.setUsername(treeNode.get("message").get("from").get("username").textValue());
         from.setFirstName(treeNode.get("message").get("from").get("first_name").textValue());
-        from.setLanguage_code(treeNode.get("message").get("from").get("language_code").textValue());
+        from.setLanguageCode(treeNode.get("message").get("from").get("language_code").textValue());
         Message.Chat chat = new Message.Chat();
         chat.setId(treeNode.get("message").get("chat").get("id").longValue());
         chat.setUsername(treeNode.get("message").get("chat").get("username").textValue());
