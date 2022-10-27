@@ -7,6 +7,7 @@ import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
 import edu.kmaooad.exceptions.EmptyRequestBodyException;
+import edu.kmaooad.exceptions.IncorrectRequestBodyException;
 import edu.kmaooad.models.BotUpdate;
 
 import org.springframework.cloud.function.adapter.azure.FunctionInvoker;
@@ -39,7 +40,7 @@ public class TelegramWebhookHandler extends FunctionInvoker<BotUpdate, String> {
                     .createResponseBuilder(HttpStatus.OK)
                     .body(funcRes)
                     .build();
-        } catch (JsonProcessingException | EmptyRequestBodyException e) {
+        } catch (IncorrectRequestBodyException | JsonProcessingException | EmptyRequestBodyException e) {
             e.printStackTrace();
             return request
                     .createResponseBuilder(HttpStatus.BAD_REQUEST)
