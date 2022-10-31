@@ -1,29 +1,48 @@
 package edu.kmaooad;
 
-import com.microsoft.azure.functions.*;
+import com.microsoft.azure.functions.ExecutionContext;
+import com.microsoft.azure.functions.HttpRequestMessage;
+import com.microsoft.azure.functions.HttpResponseMessage;
+import com.microsoft.azure.functions.HttpStatus;
+import edu.kmaooad.models.BotUpdate;
+import edu.kmaooad.repositories.BotUpdateRepository;
+import edu.kmaooad.webhook.TelegramWebhook;
 import edu.kmaooad.webhook.TelegramWebhookHandler;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-
-import java.util.*;
-import java.util.logging.Logger;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+
+import java.util.Optional;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
 /**
  * Unit test for Function class.
  */
-//@SpringBootTest(classes = Application.class)
+@SpringBootTest
 public class FunctionTest {
+
+    @TestConfiguration
+    static class TestConfig {
+
+        @Bean
+        @Primary
+        public BotUpdateRepository getBotUpdateRepository() {
+            BotUpdateRepository repository = mock(BotUpdateRepository.class);
+            doReturn(null).when(repository).save(any(BotUpdate.class));
+            return repository;
+        }
+    }
 
     private static final String BAD_RESPONSE = "Request body must not be blank and must have message object with message_id field";
 
@@ -52,9 +71,6 @@ public class FunctionTest {
         return context;
     }
 
-    @Autowired
-    private ApplicationContext context;
-
     @Test
     public void testFunctionWithoutBody() {
         // Invoke
@@ -65,7 +81,7 @@ public class FunctionTest {
     }
 
     @Test
-    public void testFunctionWithWrongStringInBody(){
+    public void testFunctionWithWrongStringInBody() {
         // Invoke
         final HttpResponseMessage ret = new TelegramWebhookHandler().run(getReq(Optional.of("Azure")), getContext());
         // Verify
@@ -74,7 +90,7 @@ public class FunctionTest {
     }
 
     @Test
-    public void testFunctionWithMessageWithoutMessageIdInBody(){
+    public void testFunctionWithMessageWithoutMessageIdInBody() {
         // Invoke
         final HttpResponseMessage ret = new TelegramWebhookHandler().run(getReq(Optional.of("{\n" +
                 "    \"message\": {}\n" +
@@ -85,7 +101,7 @@ public class FunctionTest {
     }
 
     @Test
-    public void testFunctionWithMessageIdWithoutMessageInBody(){
+    public void testFunctionWithMessageIdWithoutMessageInBody() {
         // Invoke
         final HttpResponseMessage ret = new TelegramWebhookHandler().run(getReq(Optional.of("{\n" +
                 "    \"message_id\": 12345\n" +
@@ -96,7 +112,7 @@ public class FunctionTest {
     }
 
     @Test
-    public void testFunctionWithWrongTypeOfMessageIdInBody(){
+    public void testFunctionWithWrongTypeOfMessageIdInBody() {
         // Invoke
         final HttpResponseMessage ret = new TelegramWebhookHandler().run(getReq(Optional.of("{\n" +
                 "    \"message\": {\n" +
@@ -108,80 +124,45 @@ public class FunctionTest {
         assertEquals(BAD_RESPONSE, ret.getBody());
     }
 
-//    @Test
-//    public void testFunctionWithCorrectBody() {
-//        // Invoke
-//        final HttpResponseMessage ret = new TelegramWebhookHandler().run(getReq(Optional.of(
-//                "{\n" +
-//                        "    \"update_id\":23433,\n" +
-//                        "    \"message\":{\n" +
-//                        "        \"message_id\":111,\n" +
-//                        "        \"from\":{\n" +
-//                        "            \"id\":569520498,\n" +
-//                        "            \"is_bot\":false,\n" +
-//                        "            \"first_name\":\"Gleb\",\n" +
-//                        "            \"username\":\"Pelagus21\",\n" +
-//                        "            \"language_code\":\"uk\"\n" +
-//                        "        },\n" +
-//                        "        \"chat\":{\n" +
-//                        "            \"id\":569520498,\n" +
-//                        "            \"first_name\":\"Gleb\",\n" +
-//                        "            \"username\":\"Pelagus21\",\n" +
-//                        "            \"type\":\"private\"\n" +
-//                        "        },\n" +
-//                        "        \"date\":1666633719,\n" +
-//                        "        \"text\":\"test hello from postman!!!!\"\n" +
-//                        "    }\n" +
-//                        "}"
-//        )), getContext());
-//        // Verify
-//        assertEquals(HttpStatus.OK, ret.getStatus());
-//        assertEquals("message_id=111", ret.getBody());
-//    }
+    private TelegramWebhookHandler getHandler() {
+        TelegramWebhookHandler handler = spy(TelegramWebhookHandler.class);
+        doAnswer(invocationOnMock -> applicationContext.getBean(TelegramWebhook.class).apply(invocationOnMock.getArgument(0)))
+                .when(handler).handleRequest(any(BotUpdate.class), any(ExecutionContext.class));
+        return handler;
+    }
 
-//    @Test
-//    public void testFunctionWithCorrectBody2() {
-//
-//        FunctionInvoker<BotUpdate, String> handler = new FunctionInvoker<>(
-//                TelegramWebhook.class);
-//        BotUpdate upd = new BotUpdate();
-//        upd.setUpdateId((long)23433);
-//        Message msg = new Message();
-//        msg.setText("Test text hello");
-//        msg.setDate((long)1666633719);
-//        msg.setMessageId((long)111);
-//        Message.From from = new Message.From();
-//        from.setId((long)569520498);
-//        from.setBot(false);
-//        from.setUsername("Username1");
-//        from.setFirstName("Gleb");
-//        from.setLanguageCode("uk");
-//        Message.Chat chat = new Message.Chat();
-//        chat.setId((long)569520498);
-//        chat.setType("private");
-//        chat.setUsername("Username1");
-//        chat.setFirstName("Gleb");
-//        msg.setChat(chat);
-//        msg.setFrom(from);
-//        upd.setMessage(msg);
-//        String result = handler.handleRequest(upd, new ExecutionContext() {
-//            @Override
-//            public Logger getLogger() {
-//                return Logger.getLogger(FunctionTest.class.getName());
-//            }
-//
-//            @Override
-//            public String getInvocationId() {
-//                return "id1";
-//            }
-//
-//            @Override
-//            public String getFunctionName() {
-//                return "TelegramWebhook";
-//            }
-//        });
-//        handler.close();
-//        assertEquals(result, "message_id=111");
-//    }
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Test
+    public void testFunctionWithCorrectBody() {
+        // Invoke
+        final HttpResponseMessage ret = getHandler().run(getReq(Optional.of(
+                "{\n" +
+                        "    \"update_id\":23433,\n" +
+                        "    \"message\":{\n" +
+                        "        \"message_id\":111,\n" +
+                        "        \"from\":{\n" +
+                        "            \"id\":569520498,\n" +
+                        "            \"is_bot\":false,\n" +
+                        "            \"first_name\":\"Gleb\",\n" +
+                        "            \"username\":\"Pelagus21\",\n" +
+                        "            \"language_code\":\"uk\"\n" +
+                        "        },\n" +
+                        "        \"chat\":{\n" +
+                        "            \"id\":569520498,\n" +
+                        "            \"first_name\":\"Gleb\",\n" +
+                        "            \"username\":\"Pelagus21\",\n" +
+                        "            \"type\":\"private\"\n" +
+                        "        },\n" +
+                        "        \"date\":1666633719,\n" +
+                        "        \"text\":\"test hello from postman!!!!\"\n" +
+                        "    }\n" +
+                        "}"
+        )), getContext());
+        // Verify
+        assertEquals(HttpStatus.OK, ret.getStatus());
+        assertEquals("message_id=111", ret.getBody());
+    }
 
 }
