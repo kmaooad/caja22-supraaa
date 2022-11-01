@@ -1,4 +1,4 @@
-package edu.kmaooad;
+package edu.kmaooad.exceptions;
 
 public class EmptyRequestBodyException extends Exception {
 
