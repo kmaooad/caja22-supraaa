@@ -7,8 +7,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class CompositeKey {
+public class AccessRuleCompositeKey {
     private Long issuerId;
+    private IssuerType issuerType;
     private Long resourceId;
     private Long commandId;
 }
