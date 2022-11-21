@@ -16,7 +16,7 @@ public class OrgsWebClient {
 
     //fetch method stubs
 
-    public Long[] fetchUserOrganizations(Long userId) {
+    public Long fetchUserOrganizations(Long userId) {
 //        perform http call to endpoint
 //        this.webClient.get()
 //                .uri(uriBuilder -> uriBuilder
@@ -26,10 +26,12 @@ public class OrgsWebClient {
 //                .retrieve()
 //                .bodyToMono(Long[].class)
 //                .block();
-        return new Long[] {1L, 2L, 3L};
+//        return new Long[] {1L, 2L, 3L};
+        return 3L;
     }
 
-    public Long[] fetchUserDepartments(Long userId) {
+
+    public Long fetchUserDepartments(Long userId) {
 //        perform http call to endpoint
 //        this.webClient.get()
 //                .uri(uriBuilder -> uriBuilder
@@ -39,7 +41,8 @@ public class OrgsWebClient {
 //                .retrieve()
 //                .bodyToMono(Long[].class)
 //                .block();
-        return new Long[] {4L, 5L, 6L};
+//        return new Long[] {4L, 5L, 6L};
+        return 3L;
     }
 
 }

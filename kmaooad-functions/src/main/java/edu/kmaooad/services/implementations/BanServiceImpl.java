@@ -7,24 +7,16 @@ import edu.kmaooad.repositories.BannedDepartmentRepository;
 import edu.kmaooad.repositories.BannedOrganizationRepository;
 import edu.kmaooad.repositories.BannedUserRepository;
 import edu.kmaooad.services.interfaces.BanService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BanServiceImpl implements BanService {
 
     private final BannedUserRepository bannedUserRepository;
     private final BannedDepartmentRepository bannedDepartmentRepository;
     private final BannedOrganizationRepository bannedOrganizationRepository;
-
-    @Autowired
-    public BanServiceImpl(BannedUserRepository bannedUserRepository,
-                          BannedDepartmentRepository bannedDepartmentRepository,
-                          BannedOrganizationRepository bannedOrganizationRepository) {
-        this.bannedUserRepository = bannedUserRepository;
-        this.bannedDepartmentRepository = bannedDepartmentRepository;
-        this.bannedOrganizationRepository = bannedOrganizationRepository;
-    }
 
     @Override
     public void addBanForUser(Long userId) {
