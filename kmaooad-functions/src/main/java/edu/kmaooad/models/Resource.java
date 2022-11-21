@@ -13,13 +13,13 @@ public class Resource {
     @Id
     private Long id;
 
-    private ResourceCompositeField resource;
+    private ResourceCompositeField realResource;
 
     public Resource() {}
 
     public Resource(Long id, Long realId, ResourceType type) {
         this.id = id;
-        this.resource = new ResourceCompositeField(realId,type);
+        this.realResource = new ResourceCompositeField(realId,type);
     }
 
 }
