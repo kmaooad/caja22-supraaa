@@ -20,6 +20,9 @@ public class AccessCheckServiceImpl implements AccessCheckService {
     private final OrgsWebClient orgsWebClient;
 
 
+    // todo: please, add ResourceType to params
+    //  and inside the method get internal resource id by realResourceId (now here you have it called resourceId) and ResourceType,
+    //  then pass internal resource id to access rule service
     @Override
     public boolean hasAccess(Long userId, Long resourceId, Long commandId) {
         if (banService.isUserBanned(userId)) {

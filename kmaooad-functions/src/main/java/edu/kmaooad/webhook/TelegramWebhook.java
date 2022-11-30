@@ -15,6 +15,8 @@ public class TelegramWebhook implements Function<BotUpdate, String> {
 
     @Override
     public String apply(BotUpdate botUpdate) {
+        // todo: parse botUpdate to a CommandCall
+        // todo: call dispatcher with the CommandCall
         updateRepository.save(botUpdate);
         return "message_id=" + botUpdate.getMessage().getMessageId();
     }
