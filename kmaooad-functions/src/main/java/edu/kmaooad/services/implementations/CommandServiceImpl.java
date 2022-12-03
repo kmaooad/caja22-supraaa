@@ -19,8 +19,8 @@ public class CommandServiceImpl implements CommandService {
     }
 
     @Override
-    public Command createCommand(Long id, String name) throws IncorrectCommandParamsException {
-        return commandRepository.save(validateCommand(id, name));
+    public Command createCommand(Long id, String name, String functionUrl) throws IncorrectCommandParamsException {
+        return commandRepository.save(validateCommand(id, name, functionUrl));
     }
 
     @Override
@@ -29,8 +29,8 @@ public class CommandServiceImpl implements CommandService {
     }
 
     @Override
-    public Command updateCommand(Long id, String name) throws Exception {
-        Command command = validateCommand(id, name);
+    public Command updateCommand(Long id, String name, String functionUrl) throws Exception {
+        Command command = validateCommand(id, name, functionUrl);
         if(!existsById(id)) {
             throw new NotFoundException(Command.class.getSimpleName());
         }
@@ -50,12 +50,12 @@ public class CommandServiceImpl implements CommandService {
         return commandRepository.existsById(id);
     }
 
-    private Command validateCommand(Long id, String name) throws IncorrectCommandParamsException {
+    private Command validateCommand(Long id, String name, String functionUrl) throws IncorrectCommandParamsException {
         if(id == null)
             throw new IncorrectCommandParamsException("id","null");
         if(name == null)
             throw new IncorrectCommandParamsException("name","null");
-        return new Command(id,name);
+        return new Command(id, name, functionUrl);
     }
 
 }
