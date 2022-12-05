@@ -15,10 +15,11 @@ public class CommandParser {
     public CommandCall parse(BotUpdate botUpdate) {
         String text = botUpdate.getMessage().getText();
         Long userId = botUpdate.getMessage().getFrom().getId();
+        Long chatId = botUpdate.getMessage().getChat().getId();
         String[] res = text.split("\\s+");
         //retrieve commandId by commandName from commandService
         //Long commandId = this.commandService.getIdByName(res[0]);
-        return new CommandCall(1L, userId, Arrays.copyOfRange(res, 1, res.length));
+        return new CommandCall(1L, chatId, userId, Arrays.copyOfRange(res, 1, res.length));
     }
 
 }

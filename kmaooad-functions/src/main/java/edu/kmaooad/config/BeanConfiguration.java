@@ -5,11 +5,13 @@ import edu.kmaooad.commandHandlers.OtherCommandHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableAsync
 @AllArgsConstructor
 public class BeanConfiguration {
 

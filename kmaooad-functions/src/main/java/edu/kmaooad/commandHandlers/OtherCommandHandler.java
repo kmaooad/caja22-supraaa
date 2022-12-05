@@ -1,8 +1,10 @@
 package edu.kmaooad.commandHandlers;
 
+import edu.kmaooad.events.HandlerEvent;
 import edu.kmaooad.models.Command;
 import edu.kmaooad.processing.CommandCall;
 import edu.kmaooad.services.interfaces.CommandService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -14,9 +16,11 @@ public class OtherCommandHandler implements CommandHandler{
 
     private final CommandService commandService;
     private final WebClient webClient;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public OtherCommandHandler(CommandService commandService) {
+    public OtherCommandHandler(CommandService commandService, ApplicationEventPublisher applicationEventPublisher) {
         this.commandService = commandService;
+        this.applicationEventPublisher = applicationEventPublisher;
         this.webClient = WebClient.create();
     }
 
@@ -39,9 +43,11 @@ public class OtherCommandHandler implements CommandHandler{
         response.subscribe(value -> {
             System.out.println("Got response: " + value);
             //TODO: emit Event with ("Got response: " + value)
+            applicationEventPublisher.publishEvent(new HandlerEvent(value, commandCall.getChatId()));
         });
         System.out.println("Command sent - " + command.getName());
         //TODO: emit Event with ("Command sent - " + command.getName())
+        applicationEventPublisher.publishEvent(new HandlerEvent("Command " + command.getName() + " being processed..", commandCall.getChatId()));
     }
 
 }

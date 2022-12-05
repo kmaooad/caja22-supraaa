@@ -13,6 +13,8 @@ public class CommandCall {
 
     private Long commandId;
 
+    private Long chatId;
+
     // todo: add chat_id field
 
     // todo: to check access rule for this command inside dispatcher resourceId and resourceType are required,
