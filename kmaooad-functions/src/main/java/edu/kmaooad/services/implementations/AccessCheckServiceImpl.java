@@ -3,6 +3,7 @@ package edu.kmaooad.services.implementations;
 import edu.kmaooad.apiCommunication.OrgsWebClient;
 import edu.kmaooad.models.AccessRule;
 import edu.kmaooad.models.IssuerType;
+import edu.kmaooad.models.ResourceType;
 import edu.kmaooad.services.interfaces.AccessCheckService;
 import edu.kmaooad.services.interfaces.AccessRuleService;
 import edu.kmaooad.services.interfaces.BanService;
@@ -19,6 +20,12 @@ public class AccessCheckServiceImpl implements AccessCheckService {
     private final AccessRuleService accessRuleService;
     private final OrgsWebClient orgsWebClient;
 
+    // todo: move previous implementation to this method
+    @Override
+    public boolean hasAccess(Long userId, Long resourceId, ResourceType resourceType, Long commandId) {
+        // check access of the user to the resource and command
+        return true;
+    }
 
     // todo: please, add ResourceType to params
     //  and inside the method get internal resource id by realResourceId (now here you have it called resourceId) and ResourceType,
