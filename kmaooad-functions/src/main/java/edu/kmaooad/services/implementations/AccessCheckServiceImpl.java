@@ -3,9 +3,7 @@ package edu.kmaooad.services.implementations;
 import edu.kmaooad.apiCommunication.OrgsWebClient;
 import edu.kmaooad.models.AccessRule;
 import edu.kmaooad.models.IssuerType;
-import edu.kmaooad.services.interfaces.AccessCheckService;
-import edu.kmaooad.services.interfaces.AccessRuleService;
-import edu.kmaooad.services.interfaces.BanService;
+import edu.kmaooad.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +13,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AccessCheckServiceImpl implements AccessCheckService {
 
-    private final BanService banService;
+    private final BanUserService banUserService;
+    private final BanDepartmentService banDepartmentService;
+    private final BanOrganizationService banOrganizationService;
     private final AccessRuleService accessRuleService;
     private final OrgsWebClient orgsWebClient;
 
 
     @Override
     public boolean hasAccess(Long userId, Long resourceId, Long commandId) {
-        if (banService.isUserBanned(userId)) {
+        if (banUserService.isUserBanned(userId)) {
             return false;
         }
 
@@ -33,7 +33,7 @@ public class AccessCheckServiceImpl implements AccessCheckService {
         }
 
         Long departmentId = getUserDepartmentId(userId);
-        if (banService.isDepartmentBanned(departmentId)){
+        if (banDepartmentService.isDepartmentBanned(departmentId)){
             return false;
         }
 
@@ -44,7 +44,7 @@ public class AccessCheckServiceImpl implements AccessCheckService {
         }
 
         Long organisationId = getUserOrganisationId(userId);
-        if (banService.isOrganizationBanned(organisationId)){
+        if (banOrganizationService.isOrganizationBanned(organisationId)){
             return false;
         }
 
