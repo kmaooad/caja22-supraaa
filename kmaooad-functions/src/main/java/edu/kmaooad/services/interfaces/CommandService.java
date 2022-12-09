@@ -16,6 +16,6 @@ public interface CommandService {
 
     boolean existsById(Long id);
 
-    // todo: add Command getCommandByName(commandText);
+    Command getCommandByName(String commandText);
 
 }

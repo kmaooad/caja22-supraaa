@@ -50,6 +50,11 @@ public class CommandServiceImpl implements CommandService {
         return commandRepository.existsById(id);
     }
 
+    @Override
+    public Command getCommandByName(String commandText) {
+        return commandRepository.findCommandByName(commandText).orElseThrow(() -> new NotFoundException(Command.class.getSimpleName(), "name"));
+    }
+
     private Command validateCommand(Long id, String name, String functionUrl) throws IncorrectCommandParamsException {
         if(id == null)
             throw new IncorrectCommandParamsException("id","null");

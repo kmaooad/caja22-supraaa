@@ -4,6 +4,6 @@ import edu.kmaooad.processing.CommandCall;
 
 public interface CommandHandler {
 
-    void handle(CommandCall commandCall);
+    void handle(CommandCall commandCall) throws Exception;
 
 }
