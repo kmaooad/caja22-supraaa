@@ -156,7 +156,7 @@ public class FunctionTest {
                         "            \"type\":\"private\"\n" +
                         "        },\n" +
                         "        \"date\":1666633719,\n" +
-                        "        \"text\":\"test hello from postman!!!!\"\n" +
+                        "        \"text\":\"createStudent 1 USER\"\n" +
                         "    }\n" +
                         "}"
         )), getContext());
