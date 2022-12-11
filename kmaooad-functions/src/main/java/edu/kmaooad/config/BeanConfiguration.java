@@ -19,6 +19,8 @@ public class BeanConfiguration {
     @Bean
     public Map<Long, CommandHandler> getCommandHandlerMap(OtherCommandHandler otherCommandHandler,
                                                           CreateAccessRuleHandler createAccessRuleHandler,
+                                                          UpdateAccessRuleHandler updateAccessRuleHandler,
+                                                          DeleteAccessRuleHandler deleteAccessRuleHandler,
                                                           BanHandler banHandler,
                                                           UnbanHandler unbanHandler) {
         Map<Long, CommandHandler> map = new HashMap<>() {
@@ -28,8 +30,10 @@ public class BeanConfiguration {
             }
         };
         map.put(0L, createAccessRuleHandler);
-        map.put(1L, banHandler);
-        map.put(2L, unbanHandler);
+        map.put(1L, updateAccessRuleHandler);
+        map.put(2L, deleteAccessRuleHandler);
+        map.put(3L, banHandler);
+        map.put(4L, unbanHandler);
         return map;
     }
 
