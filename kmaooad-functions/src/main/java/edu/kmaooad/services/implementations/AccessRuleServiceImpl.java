@@ -30,4 +30,9 @@ public class AccessRuleServiceImpl implements AccessRuleService {
     public Optional<AccessRule> getById(Long issuerId, IssuerType issuerType, Long resourceId, Long commandId) {
         return accessRuleRepository.findById(new AccessRuleCompositeKey(issuerId, issuerType, resourceId, commandId));
     }
+
+    @Override
+    public boolean existsById(Long issuerId, IssuerType issuerType, Long resourceId, Long commandId) {
+        return accessRuleRepository.existsById(new AccessRuleCompositeKey(issuerId,issuerType,resourceId,commandId));
+    }
 }
