@@ -11,11 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class CommandParserTest {
 
-
-    private final CommandParser parser = new CommandParser();
-
+    @Autowired
+    private CommandParser parser;
 
     @Test
     public void parseCommand_whenCorrectCommandInBotUpdate_thenReturnCommandCallObject() {
@@ -27,7 +27,7 @@ public class CommandParserTest {
         doReturn(569520498L).when(from).getId();
         msg.setFrom(from);
         msg.setChat(chat);
-        msg.setText("/getDept -id 22223");
+        msg.setText("createStudent -id 22223");
         upd.setMessage(msg);
         CommandCall call = parser.parse(upd);
         Assertions.assertEquals(call.getArgs().length, 2);
