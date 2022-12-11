@@ -20,7 +20,7 @@ public class CommandDispatcherImpl implements CommandDispatcher {
     public void dispatch(CommandCall commandCall) throws Exception {
         // todo: check access rule for the command
         //  accessCheckService.hasAccess(commandCall.getUserId(),commandCall.getResourceId(), commandCall.getResourceType(), commandCall.getCommandId())
-        if (!accessCheckService.hasAccess(commandCall.getUserId(), 0L, ResourceType.USER, commandCall.getCommandId())) {
+        if (!accessCheckService.hasAccess(commandCall.getUserId(), Long.parseLong(commandCall.getArgs()[0]), ResourceType.valueOf(commandCall.getArgs()[1]), commandCall.getCommandId())) {
             throw new AccessDeniedException();
         }
         handlers.get(commandCall.getCommandId()).handle(commandCall);

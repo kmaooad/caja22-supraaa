@@ -26,6 +26,7 @@ public class CreateAccessRuleHandler implements CommandHandler {
 
     command looks something like:
 
+                     resourceId  resourceType  ...args
     createAccessRule <issuerId> <issuerType> <realResourceId> <realResourceType> <commandText> <allow|deny>
 
      */
