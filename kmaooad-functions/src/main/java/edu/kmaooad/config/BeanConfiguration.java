@@ -1,8 +1,6 @@
 package edu.kmaooad.config;
 
-import edu.kmaooad.commandHandlers.CommandHandler;
-import edu.kmaooad.commandHandlers.CreateAccessRuleHandler;
-import edu.kmaooad.commandHandlers.OtherCommandHandler;
+import edu.kmaooad.commandHandlers.*;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +17,10 @@ public class BeanConfiguration {
 
     // todo: add your handler as a parameter of the method and add its instance to the map
     @Bean
-    public Map<Long, CommandHandler> getCommandHandlerMap(OtherCommandHandler otherCommandHandler, CreateAccessRuleHandler createAccessRuleHandler) {
+    public Map<Long, CommandHandler> getCommandHandlerMap(OtherCommandHandler otherCommandHandler,
+                                                          CreateAccessRuleHandler createAccessRuleHandler,
+                                                          BanHandler banHandler,
+                                                          UnbanHandler unbanHandler) {
         Map<Long, CommandHandler> map = new HashMap<>() {
             @Override
             public CommandHandler get(Object key) {
@@ -27,6 +28,8 @@ public class BeanConfiguration {
             }
         };
         map.put(0L, createAccessRuleHandler);
+        map.put(1L, banHandler);
+        map.put(2L, unbanHandler);
         return map;
     }
 
