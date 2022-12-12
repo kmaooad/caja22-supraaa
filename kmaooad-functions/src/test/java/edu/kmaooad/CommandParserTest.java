@@ -3,19 +3,12 @@ package edu.kmaooad;
 import edu.kmaooad.models.BotUpdate;
 import edu.kmaooad.models.Message;
 import edu.kmaooad.processing.CommandCall;
-import edu.kmaooad.processing.CommandParser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class CommandParserTest {
-
-    @Autowired
-    private CommandParser parser;
+public class CommandParserTest extends BaseTest {
 
     @Test
     public void parseCommand_whenCorrectCommandInBotUpdate_thenReturnCommandCallObject() {

@@ -1,19 +1,21 @@
 package edu.kmaooad;
 
-import com.microsoft.azure.functions.*;
+import com.microsoft.azure.functions.HttpResponseMessage;
+import com.microsoft.azure.functions.HttpStatus;
+import com.microsoft.azure.functions.HttpStatusType;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The mock for HttpResponseMessage, can be used in unit tests to verify if the
  * returned response by HTTP trigger function is correct or not.
  */
 public class HttpResponseMessageMock implements HttpResponseMessage {
-    private int httpStatusCode;
-    private HttpStatusType httpStatus;
-    private Object body;
-    private Map<String, String> headers;
+    private final int httpStatusCode;
+    private final HttpStatusType httpStatus;
+    private final Object body;
+    private final Map<String, String> headers;
 
     public HttpResponseMessageMock(HttpStatusType status, Map<String, String> headers, Object body) {
         this.httpStatus = status;

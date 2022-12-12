@@ -1,6 +1,5 @@
 package edu.kmaooad;
 
-import edu.kmaooad.commandHandlers.CreateAccessRuleHandler;
 import edu.kmaooad.exceptions.IncorrectResourceParamsException;
 import edu.kmaooad.models.Command;
 import edu.kmaooad.models.Resource;
@@ -10,8 +9,6 @@ import edu.kmaooad.services.interfaces.AccessRuleService;
 import edu.kmaooad.services.interfaces.CommandService;
 import edu.kmaooad.services.interfaces.ResourceService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -23,12 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-@SpringBootTest
-public class CreateAccessRuleHandlerTest {
-
-    @Autowired
-    private CreateAccessRuleHandler createAccessRuleHandler;
-
+public class CreateAccessRuleHandlerTest extends BaseTest {
 
     @TestConfiguration
     static class TestConfig {

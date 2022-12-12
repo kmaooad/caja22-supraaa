@@ -11,10 +11,7 @@ import edu.kmaooad.webhook.TelegramWebhookHandler;
 import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
@@ -29,8 +26,7 @@ import static org.mockito.Mockito.*;
 /**
  * Unit test for Function class.
  */
-@SpringBootTest
-public class FunctionTest {
+public class FunctionTest extends BaseTest {
 
     @TestConfiguration
     static class TestConfig {
@@ -130,9 +126,6 @@ public class FunctionTest {
                 .when(handler).handleRequest(any(BotUpdate.class), any(ExecutionContext.class));
         return handler;
     }
-
-    @Autowired
-    private ApplicationContext applicationContext;
 
     @Test
     public void testFunctionWithCorrectBody() {

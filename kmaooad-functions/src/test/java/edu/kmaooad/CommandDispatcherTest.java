@@ -1,14 +1,11 @@
 package edu.kmaooad;
 
-import edu.kmaooad.commandDispatcher.CommandDispatcher;
 import edu.kmaooad.commandHandlers.CommandHandler;
 import edu.kmaooad.exceptions.AccessDeniedException;
 import edu.kmaooad.exceptions.IncorrectResourceParamsException;
 import edu.kmaooad.processing.CommandCall;
 import edu.kmaooad.services.interfaces.AccessCheckService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -18,14 +15,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class CommandDispatcherTest {
-
-    @Autowired
-    private CommandDispatcher commandDispatcher;
-
-    @Autowired
-    private Map<Long, CommandHandler> handlers;
+public class CommandDispatcherTest extends BaseTest {
 
     @TestConfiguration
     static class TestConfig {

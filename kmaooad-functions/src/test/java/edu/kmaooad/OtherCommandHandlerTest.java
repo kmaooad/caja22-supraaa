@@ -1,6 +1,5 @@
 package edu.kmaooad;
 
-import edu.kmaooad.commandHandlers.OtherCommandHandler;
 import edu.kmaooad.exceptions.NotFoundException;
 import edu.kmaooad.models.Command;
 import edu.kmaooad.processing.CommandCall;
@@ -8,8 +7,6 @@ import edu.kmaooad.services.interfaces.CommandService;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -22,11 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class OtherCommandHandlerTest {
-
-    @Autowired
-    private OtherCommandHandler otherCommandHandler;
+public class OtherCommandHandlerTest extends BaseTest {
 
     @TestConfiguration
     static class TestConfig {
