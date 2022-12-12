@@ -3,7 +3,9 @@ package edu.kmaooad.commandHandlers;
 import edu.kmaooad.events.HandlerEvent;
 import edu.kmaooad.models.IssuerType;
 import edu.kmaooad.processing.CommandCall;
-import edu.kmaooad.services.interfaces.BanService;
+import edu.kmaooad.services.interfaces.BanDepartmentService;
+import edu.kmaooad.services.interfaces.BanOrganizationService;
+import edu.kmaooad.services.interfaces.BanUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -12,7 +14,9 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class UnbanHandler implements CommandHandler{
 
-    private BanService banService;
+    private BanUserService banUserService;
+    private BanDepartmentService banDepartmentService;
+    private BanOrganizationService banOrganizationService;
     private ApplicationEventPublisher applicationEventPublisher;
 
     /*
@@ -32,26 +36,26 @@ public class UnbanHandler implements CommandHandler{
         switch (issuerType) {
             case USER:
                 issuer = "User";
-                if(!banService.isUserBanned(issuerId)) {
+                if(!banUserService.isUserBanned(issuerId)) {
                     throw new Exception("This user is not banned!");
                 } else {
-                    banService.deleteBanForUser(issuerId);
+                    banUserService.deleteBanForUser(issuerId);
                 }
                 break;
             case DEPARTMENT:
                 issuer = "Department";
-                if(!banService.isDepartmentBanned(issuerId)) {
+                if(!banDepartmentService.isDepartmentBanned(issuerId)) {
                     throw new Exception("This department is not banned!");
                 } else {
-                    banService.deleteBanForDepartment(issuerId);
+                    banDepartmentService.deleteBanForDepartment(issuerId);
                 }
                 break;
             case ORGANIZATION:
                 issuer = "Organization";
-                if(!banService.isOrganizationBanned(issuerId)) {
+                if(!banOrganizationService.isOrganizationBanned(issuerId)) {
                     throw new Exception("This organization is not banned!");
                 } else {
-                    banService.deleteBanForOrganization(issuerId);
+                    banOrganizationService.deleteBanForOrganization(issuerId);
                 }
                 break;
         }
