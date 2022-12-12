@@ -4,8 +4,10 @@ import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.HttpRequestMessage;
 import com.microsoft.azure.functions.HttpResponseMessage;
 import com.microsoft.azure.functions.HttpStatus;
+import edu.kmaooad.exceptions.IncorrectResourceParamsException;
 import edu.kmaooad.models.BotUpdate;
 import edu.kmaooad.repositories.BotUpdateRepository;
+import edu.kmaooad.services.interfaces.AccessCheckService;
 import edu.kmaooad.webhook.TelegramWebhook;
 import edu.kmaooad.webhook.TelegramWebhookHandler;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,14 @@ public class FunctionTest extends BaseTest {
             BotUpdateRepository repository = mock(BotUpdateRepository.class);
             doReturn(null).when(repository).save(any(BotUpdate.class));
             return repository;
+        }
+
+        @Bean
+        @Primary
+        public AccessCheckService accessCheckService() throws IncorrectResourceParamsException {
+            AccessCheckService service = mock(AccessCheckService.class);
+            doReturn(true).when(service).hasAccess(any(), any(), any(), any());
+            return service;
         }
     }
 

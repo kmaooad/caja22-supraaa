@@ -40,14 +40,14 @@ public class CommandDispatcherTest extends BaseTest {
 
     @Test
     public void givenAllowedCommandCall_whenDispatch_shouldCallHandle() throws Exception {
-        CommandCall commandCall = new CommandCall(0L, 123L, 456L, new String[0]);
+        CommandCall commandCall = new CommandCall(0L, 123L, 456L, new String[]{"1234", "USER"});
         commandDispatcher.dispatch(commandCall);
         verify(handlers.get(0L), times(1)).handle(commandCall);
     }
 
     @Test
     public void givenDeniedCommandCall_whenDispatch_shouldThrow() throws Exception {
-        CommandCall commandCall = new CommandCall(1L, 123L, 456L, new String[0]);
+        CommandCall commandCall = new CommandCall(1L, 123L, 456L, new String[]{"1234", "USER"});
         assertThrows(AccessDeniedException.class, () -> commandDispatcher.dispatch(commandCall));
         verify(handlers.get(0L), times(0)).handle(commandCall);
     }

@@ -34,7 +34,8 @@ public class TelegramWebhook implements Function<BotUpdate, String> {
             return "message_id=" + botUpdate.getMessage().getMessageId();
         } catch (Exception e) {
             eventPublisher.publishEvent(new HandlerEvent("Error occurred: " + e.getMessage(), botUpdate.getMessage().getChat().getId()));
-            return "Error occurred";
+            e.printStackTrace();
+            return "Error occurred: "+e.getMessage();
         }
     }
 
