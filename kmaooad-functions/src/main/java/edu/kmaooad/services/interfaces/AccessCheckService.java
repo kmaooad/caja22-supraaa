@@ -8,4 +8,5 @@ public interface AccessCheckService {
     // preferred signature
     boolean hasAccess(Long userId, Long resourceId, ResourceType resourceType, Long commandId) throws IncorrectResourceParamsException;
 
+    boolean hasAccess(Long userId, Long resourceId, Long commandId) throws IncorrectResourceParamsException;
 }

@@ -24,8 +24,14 @@ public class AccessCheckServiceImpl implements AccessCheckService {
 
 
     @Override
-    public boolean hasAccess(Long userId, Long resourceId, ResourceType resourceType, Long commandId)
+    public boolean hasAccess(Long userId, Long realResourceId, ResourceType resourceType, Long commandId)
             throws IncorrectResourceParamsException {
+        Long resourceId = resourceService.getResourceByRealIdAndType(realResourceId, resourceType).getId();
+        return hasAccess(userId, resourceId, commandId);
+    }
+
+    @Override
+    public boolean hasAccess(Long userId, Long resourceId, Long commandId) throws IncorrectResourceParamsException {
         if (banUserService.isUserBanned(userId)) {
             return false;
         }
@@ -55,18 +61,16 @@ public class AccessCheckServiceImpl implements AccessCheckService {
         Optional<AccessRule> orgAccessRule = accessRuleService
                 .getById(organisationId, IssuerType.ORGANIZATION, resourceId, commandId);
 
-
         return orgAccessRule.map(AccessRule::isAllowed).orElse(false);
     }
-
     private Long getUserDepartmentId(Long userId) throws IncorrectResourceParamsException {
         Long realDepId = orgsWebClient.fetchUserDepartments(userId);
         return resourceService.getResourceByRealIdAndType(realDepId, ResourceType.DEPARTMENT).getId();
     }
 
     private Long getUserOrganisationId(Long userId) throws IncorrectResourceParamsException {
-        Long realDepId = orgsWebClient.fetchUserOrganizations(userId);
-        return resourceService.getResourceByRealIdAndType(realDepId, ResourceType.DEPARTMENT).getId();
+        Long realOrgId = orgsWebClient.fetchUserOrganizations(userId);
+        return resourceService.getResourceByRealIdAndType(realOrgId, ResourceType.ORGANIZATION).getId();
     }
 
 }
