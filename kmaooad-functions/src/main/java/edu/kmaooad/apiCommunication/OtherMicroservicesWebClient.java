@@ -1,5 +1,7 @@
 package edu.kmaooad.apiCommunication;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -7,13 +9,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Component
+@RequiredArgsConstructor
 public class OtherMicroservicesWebClient {
 
     private final WebClient webClient;
-
-    public OtherMicroservicesWebClient(WebClient webClient) {
-        this.webClient = webClient;
-    }
 
     public Mono<String> sendPostRequest(String functionUrl, String fullCommand) {
         return this.webClient.post()

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,8 @@ import java.util.Map;
 @EnableAsync
 @AllArgsConstructor
 public class BeanConfiguration {
+
+    private static final String ORGANIZATIONS_URL = "";
 
 
     // todo: add your handler as a parameter of the method and add its instance to the map
@@ -37,4 +40,8 @@ public class BeanConfiguration {
         return map;
     }
 
+    @Bean
+    public WebClient organizationsWebClient() {
+        return WebClient.builder().baseUrl(ORGANIZATIONS_URL).build();
+    }
 }
