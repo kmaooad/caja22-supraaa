@@ -1,9 +1,13 @@
 package edu.kmaooad;
 
+import edu.kmaooad.models.AccessRule;
+import edu.kmaooad.models.AccessRuleCompositeKey;
 import edu.kmaooad.models.IssuerType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 public class AccessRuleServiceTest extends BaseTest {
 
@@ -21,7 +25,10 @@ public class AccessRuleServiceTest extends BaseTest {
         boolean allowed = true;
         Assertions.assertFalse(accessRuleService.getById(issuerId, issuerType, resourceId, commandId).isPresent());
         accessRuleService.upsert(issuerId, issuerType, resourceId, commandId, allowed);
-        Assertions.assertTrue(accessRuleService.getById(issuerId, issuerType, resourceId, commandId).isPresent());
+        Optional<AccessRule> accessRuleOptional = accessRuleService.getById(issuerId, issuerType, resourceId, commandId);
+        Assertions.assertTrue(accessRuleOptional.isPresent());
+        AccessRuleCompositeKey key = accessRuleOptional.get().getId();
+        Assertions.assertEquals(key, new AccessRuleCompositeKey(issuerId, issuerType, resourceId, commandId));
     }
 
     @Test
@@ -51,6 +58,18 @@ public class AccessRuleServiceTest extends BaseTest {
         Assertions.assertTrue(accessRuleService.getById(issuerId, issuerType, resourceId, commandId).isPresent());
         accessRuleService.deleteById(issuerId, issuerType, resourceId, commandId);
         Assertions.assertFalse(accessRuleService.getById(issuerId, issuerType, resourceId, commandId).isPresent());
+    }
+
+    @Test
+    public void givenExistingAccessRule_whenExistsById_shouldBeTrue() {
+        long issuerId = 100L;
+        IssuerType issuerType = IssuerType.USER;
+        long resourceId = 200L;
+        long commandId = 300L;
+        boolean allowed = true;
+        accessRuleService.upsert(issuerId, issuerType, resourceId, commandId, allowed);
+        Assertions.assertTrue(accessRuleService.getById(issuerId, issuerType, resourceId, commandId).isPresent());
+        Assertions.assertTrue(accessRuleService.existsById(issuerId, issuerType, resourceId, commandId));
     }
 
 }

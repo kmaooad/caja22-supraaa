@@ -3,7 +3,6 @@ package edu.kmaooad.models;
 import lombok.*;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
