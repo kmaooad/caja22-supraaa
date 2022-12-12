@@ -1,6 +1,7 @@
 package edu.kmaooad.services.implementations;
 
 import edu.kmaooad.apiCommunication.OrgsWebClient;
+import edu.kmaooad.exceptions.IncorrectResourceParamsException;
 import edu.kmaooad.models.AccessRule;
 import edu.kmaooad.models.IssuerType;
 import edu.kmaooad.models.ResourceType;
@@ -19,10 +20,12 @@ public class AccessCheckServiceImpl implements AccessCheckService {
     private final BanOrganizationService banOrganizationService;
     private final AccessRuleService accessRuleService;
     private final OrgsWebClient orgsWebClient;
+    private final ResourceService resourceService;
 
 
     @Override
-    public boolean hasAccess(Long userId, Long resourceId, ResourceType resourceType, Long commandId) {
+    public boolean hasAccess(Long userId, Long resourceId, ResourceType resourceType, Long commandId)
+            throws IncorrectResourceParamsException {
         if (banUserService.isUserBanned(userId)) {
             return false;
         }
@@ -34,7 +37,7 @@ public class AccessCheckServiceImpl implements AccessCheckService {
         }
 
         Long departmentId = getUserDepartmentId(userId);
-        if (banDepartmentService.isDepartmentBanned(departmentId)){
+        if (banDepartmentService.isDepartmentBanned(departmentId)) {
             return false;
         }
 
@@ -45,7 +48,7 @@ public class AccessCheckServiceImpl implements AccessCheckService {
         }
 
         Long organisationId = getUserOrganisationId(userId);
-        if (banOrganizationService.isOrganizationBanned(organisationId)){
+        if (banOrganizationService.isOrganizationBanned(organisationId)) {
             return false;
         }
 
@@ -56,12 +59,14 @@ public class AccessCheckServiceImpl implements AccessCheckService {
         return orgAccessRule.map(AccessRule::isAllowed).orElse(false);
     }
 
-    private Long getUserDepartmentId(Long userId) {
-        return orgsWebClient.fetchUserDepartments(userId);
+    private Long getUserDepartmentId(Long userId) throws IncorrectResourceParamsException {
+        Long realDepId = orgsWebClient.fetchUserDepartments(userId);
+        return resourceService.getResourceByRealIdAndType(realDepId, ResourceType.DEPARTMENT).getId();
     }
 
-    private Long getUserOrganisationId(Long userId) {
-        return orgsWebClient.fetchUserOrganizations(userId);
+    private Long getUserOrganisationId(Long userId) throws IncorrectResourceParamsException {
+        Long realDepId = orgsWebClient.fetchUserOrganizations(userId);
+        return resourceService.getResourceByRealIdAndType(realDepId, ResourceType.DEPARTMENT).getId();
     }
 
 }

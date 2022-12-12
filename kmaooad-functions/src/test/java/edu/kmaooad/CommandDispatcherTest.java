@@ -3,6 +3,7 @@ package edu.kmaooad;
 import edu.kmaooad.commandDispatcher.CommandDispatcher;
 import edu.kmaooad.commandHandlers.CommandHandler;
 import edu.kmaooad.exceptions.AccessDeniedException;
+import edu.kmaooad.exceptions.IncorrectResourceParamsException;
 import edu.kmaooad.processing.CommandCall;
 import edu.kmaooad.services.interfaces.AccessCheckService;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ public class CommandDispatcherTest {
 
         @Bean
         @Primary
-        public AccessCheckService accessCheckService() {
+        public AccessCheckService accessCheckService() throws IncorrectResourceParamsException {
             AccessCheckService service = mock(AccessCheckService.class);
             doReturn(true).when(service).hasAccess(any(), any(), any(), eq(0L));
             doReturn(false).when(service).hasAccess(any(), any(), any(), eq(1L));
