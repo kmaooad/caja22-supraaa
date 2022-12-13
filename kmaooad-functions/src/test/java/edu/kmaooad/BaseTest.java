@@ -1,9 +1,11 @@
 package edu.kmaooad;
 
+import edu.kmaooad.apiCommunication.TelegramWebClient;
 import edu.kmaooad.commandDispatcher.CommandDispatcher;
 import edu.kmaooad.commandHandlers.CommandHandler;
 import edu.kmaooad.commandHandlers.CreateAccessRuleHandler;
 import edu.kmaooad.commandHandlers.OtherCommandHandler;
+import edu.kmaooad.events.listeners.HandlerEventListener;
 import edu.kmaooad.processing.CommandParser;
 import edu.kmaooad.repositories.AccessRuleRepository;
 import edu.kmaooad.services.interfaces.AccessRuleService;
@@ -13,6 +15,7 @@ import edu.kmaooad.services.interfaces.BanUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Map;
 
@@ -41,4 +44,12 @@ public class BaseTest {
     protected ApplicationContext applicationContext;
     @Autowired
     protected OtherCommandHandler otherCommandHandler;
+
+//    @Autowired
+//    protected ApplicationEventPublisher applicationEventPublisher;
+//
+//    @Autowired
+//    protected HandlerEventListener eventListener;
+    @Autowired
+    protected TelegramWebClient webClient;
 }
