@@ -6,14 +6,16 @@ import edu.kmaooad.models.Command;
 
 public interface CommandService {
 
-    Command createCommand(Long id, String name) throws IncorrectCommandParamsException;
+    Command createCommand(Long id, String name, String functionUrl) throws IncorrectCommandParamsException;
 
     Command getCommandById(Long id) throws NotFoundException;
 
-    Command updateCommand(Long id, String name) throws Exception;
+    Command updateCommand(Long id, String name, String functionUrl) throws Exception;
 
     Command deleteCommandById(Long id);
 
     boolean existsById(Long id);
+
+    Command getCommandByName(String commandText);
 
 }

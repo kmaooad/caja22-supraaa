@@ -22,12 +22,11 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource createResource(Long id, Long realId, ResourceType type) throws Exception {
-        if(id == null) throw new IncorrectResourceParamsException("id","null");
-        if(realId == null) throw new IncorrectResourceParamsException("realId","null");
-        if(type == null) throw new IncorrectResourceParamsException("type","null");
-        if(!isUniqueComposite(realId,type)) throw new ResourceCompositeFieldNotUniqueException();
-        return resourceRepository.save(new Resource(id, realId, type));
+    public Resource createResource(Long realId, ResourceType type) throws Exception {
+        if (realId == null) throw new IncorrectResourceParamsException("realId", "null");
+        if (type == null) throw new IncorrectResourceParamsException("type", "null");
+        if (!isUniqueComposite(realId, type)) throw new ResourceCompositeFieldNotUniqueException();
+        return resourceRepository.save(new Resource(null, realId, type));
     }
 
     @Override
@@ -37,26 +36,26 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public Resource updateResource(Long id, Long realId, ResourceType type) throws Exception {
-        if(id == null) throw new IncorrectResourceParamsException("id","null");
-        if(realId == null) throw new IncorrectResourceParamsException("realId","null");
-        if(type == null) throw new IncorrectResourceParamsException("type","null");
-        if(!existsById(id)) throw new NotFoundException(Resource.class.getSimpleName());
-        if(!isUniqueComposite(realId,type)) throw new ResourceCompositeFieldNotUniqueException();
+        if (id == null) throw new IncorrectResourceParamsException("id", "null");
+        if (realId == null) throw new IncorrectResourceParamsException("realId", "null");
+        if (type == null) throw new IncorrectResourceParamsException("type", "null");
+        if (!existsById(id)) throw new NotFoundException(Resource.class.getSimpleName());
+        if (!isUniqueComposite(realId, type)) throw new ResourceCompositeFieldNotUniqueException();
         return resourceRepository.save(new Resource(id, realId, type));
     }
 
     @Override
     public Resource deleteResourceById(Long id) {
         Resource resource = resourceRepository.findById(id).orElse(null);
-        if(resource != null) resourceRepository.deleteById(id);
+        if (resource != null) resourceRepository.deleteById(id);
         return resource;
     }
 
     @Override
     public Resource getResourceByRealIdAndType(Long realId, ResourceType type) throws IncorrectResourceParamsException {
-        if(realId == null) throw new IncorrectResourceParamsException("realId","null");
-        if(type == null) throw new IncorrectResourceParamsException("type","null");
-        return resourceRepository.findByRealResource(new ResourceCompositeField(realId,type));
+        if (realId == null) throw new IncorrectResourceParamsException("realId", "null");
+        if (type == null) throw new IncorrectResourceParamsException("type", "null");
+        return resourceRepository.findByRealResource(new ResourceCompositeField(realId, type)).orElseThrow(() -> new NotFoundException(Resource.class.getSimpleName(), "real id and type"));
     }
 
     @Override
@@ -64,8 +63,8 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceRepository.existsById(id);
     }
 
-    private boolean isUniqueComposite(Long realId, ResourceType type){
-        ResourceCompositeField rcf = new ResourceCompositeField(realId,type);
+    private boolean isUniqueComposite(Long realId, ResourceType type) {
+        ResourceCompositeField rcf = new ResourceCompositeField(realId, type);
         return !resourceRepository.existsByRealResource(rcf);
     }
 

@@ -19,4 +19,7 @@ public class Command {
 
     private String name;
 
+    // nullable
+    private String functionUrl;
+
 }

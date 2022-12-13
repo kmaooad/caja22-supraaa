@@ -1,0 +1,20 @@
+
+fix AccessCheckServiceImpl -- Illia K.
+
+CreateAccessRuleHandler -- Illia S.
+create Handler interface -- Illia S.
+add global error handler -- Illia S.
+create Dispatcher (create a separate bean for map) -- Illia S.
+add getCommandByName() to CommandService -- Illia S.
+
+OtherCommandHandler -> send request to the appropriate microservice ->
+-> wait (or async call) for the response -> emit Event -- Ira
+add functionUrl to Command -- Ira
+
+set up Spring Events + ResponseSender -- Hlib
+add chat_id (resourceId, resourceType?) to CommandCall -- Hlib
+
+implement BanHandler -- Unassigned
+implement UnbanHandler -- Unassigned
+implement UpdateAccessRuleHandler -- Unassigned
+implement DeleteAccessRuleHandler -- Unassigned

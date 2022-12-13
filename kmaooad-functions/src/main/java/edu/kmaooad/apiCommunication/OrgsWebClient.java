@@ -1,21 +1,19 @@
 package edu.kmaooad.apiCommunication;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 
 @Component
+@RequiredArgsConstructor
 public class OrgsWebClient {
-    private static final String ORGANIZATIONS_URL = "";
 
+    @Qualifier("organizationsWebClient")
     private final WebClient webClient;
 
-    public OrgsWebClient() {
-        this.webClient = WebClient.builder().baseUrl(ORGANIZATIONS_URL).build();
-    }
-
     //fetch method stubs
-
     public Long fetchUserOrganizations(Long userId) {
 //        perform http call to endpoint
 //        this.webClient.get()

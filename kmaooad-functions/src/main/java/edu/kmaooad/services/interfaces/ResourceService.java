@@ -7,7 +7,7 @@ import edu.kmaooad.models.ResourceType;
 
 public interface ResourceService {
 
-    Resource createResource(Long id, Long realId, ResourceType type) throws Exception;
+    Resource createResource(Long realId, ResourceType type) throws Exception;
 
     Resource getResourceById(Long id) throws NotFoundException;
 

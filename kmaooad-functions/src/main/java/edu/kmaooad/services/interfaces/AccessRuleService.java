@@ -12,5 +12,5 @@ public interface AccessRuleService {
     AccessRule upsert(Long issuerId, IssuerType issuerType, Long resourceId, Long commandId, boolean allowed);
     void deleteById(Long issuerId, IssuerType issuerType, Long resourceId, Long commandId);
     Optional<AccessRule> getById(Long issuerId, IssuerType issuerType, Long resourceId, Long commandId);
-
+    boolean existsById(Long issuerId, IssuerType issuerType, Long resourceId, Long commandId);
 }

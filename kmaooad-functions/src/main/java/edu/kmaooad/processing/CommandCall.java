@@ -13,6 +13,8 @@ public class CommandCall {
 
     private Long commandId;
 
+    private Long chatId;
+
     private Long userId;
 
     private String[] args;

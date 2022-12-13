@@ -1,24 +1,11 @@
 package edu.kmaooad;
 
-import edu.kmaooad.services.interfaces.BanDepartmentService;
-import edu.kmaooad.services.interfaces.BanOrganizationService;
-import edu.kmaooad.services.interfaces.BanUserService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-public class BanTest {
-
-    @Autowired
-    private BanUserService banUserService;
-    @Autowired
-    private BanDepartmentService banDepartmentService;
-    @Autowired
-    private BanOrganizationService banOrganizationService;
+public class BanTest extends BaseTest {
 
     @Test
     public void banForUserShouldBeAdded() {
