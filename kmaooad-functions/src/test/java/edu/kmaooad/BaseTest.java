@@ -8,10 +8,7 @@ import edu.kmaooad.commandHandlers.OtherCommandHandler;
 import edu.kmaooad.events.listeners.HandlerEventListener;
 import edu.kmaooad.processing.CommandParser;
 import edu.kmaooad.repositories.AccessRuleRepository;
-import edu.kmaooad.services.interfaces.AccessRuleService;
-import edu.kmaooad.services.interfaces.BanDepartmentService;
-import edu.kmaooad.services.interfaces.BanOrganizationService;
-import edu.kmaooad.services.interfaces.BanUserService;
+import edu.kmaooad.services.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -45,11 +42,14 @@ public class BaseTest {
     @Autowired
     protected OtherCommandHandler otherCommandHandler;
 
-//    @Autowired
-//    protected ApplicationEventPublisher applicationEventPublisher;
+    @Autowired
+    protected ApplicationEventPublisher applicationEventPublisher;
 //
 //    @Autowired
 //    protected HandlerEventListener eventListener;
     @Autowired
     protected TelegramWebClient webClient;
+
+    @Autowired
+    protected CommandService commandService;
 }

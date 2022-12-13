@@ -1,14 +1,31 @@
 package edu.kmaooad;
 
 import edu.kmaooad.models.BotUpdate;
+import edu.kmaooad.models.Command;
 import edu.kmaooad.models.Message;
 import edu.kmaooad.processing.CommandCall;
+import edu.kmaooad.services.interfaces.CommandService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
 import static org.mockito.Mockito.*;
 
 public class CommandParserTest extends BaseTest {
+
+    @TestConfiguration
+    static class TestConfig {
+
+        @Bean
+        @Primary
+        public CommandService commandService() {
+            CommandService service = mock(CommandService.class);
+            doReturn(new Command(0L, "createStudent", "")).when(service).getCommandByName(eq("createStudent"));
+            return service;
+        }
+    }
 
     @Test
     public void parseCommand_whenCorrectCommandInBotUpdate_thenReturnCommandCallObject() {
