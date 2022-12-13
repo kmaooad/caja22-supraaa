@@ -3,7 +3,9 @@ package edu.kmaooad;
 import edu.kmaooad.commandHandlers.DeleteAccessRuleHandler;
 import edu.kmaooad.commandHandlers.UpdateAccessRuleHandler;
 import edu.kmaooad.exceptions.IncorrectResourceParamsException;
+import edu.kmaooad.exceptions.NotFoundException;
 import edu.kmaooad.models.Command;
+import edu.kmaooad.models.IssuerType;
 import edu.kmaooad.models.Resource;
 import edu.kmaooad.models.ResourceType;
 import edu.kmaooad.processing.CommandCall;
@@ -17,10 +19,11 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 public class DeleteAccessRuleHandlerTest extends BaseTest {
 
@@ -53,13 +56,9 @@ public class DeleteAccessRuleHandlerTest extends BaseTest {
         @Bean
         @Primary
         public AccessRuleService accessRuleService() {
-            return mock(AccessRuleService.class);
-        }
-
-        @Bean
-        @Primary
-        public ApplicationEventPublisher applicationEventPublisher() {
-            return mock(ApplicationEventPublisher.class);
+            AccessRuleService service = mock(AccessRuleService.class);
+            doReturn(true).when(service).existsById(eq(22L), eq(IssuerType.USER), any(), any());
+            return service;
         }
 
     }
@@ -80,6 +79,24 @@ public class DeleteAccessRuleHandlerTest extends BaseTest {
     public void givenCommandCall_whenArgTypeIncorrectAbsentAndHandle_shouldThrow() {
         CommandCall commandCall = new CommandCall(0L, 123L, 456L, new String[]{"111111", "RESOURCE", "222222", "USER", "createStudent", "true" });
         assertThrows(Exception.class, () -> deleteAccessRuleHandler.handle(commandCall));
+    }
+
+    @Test
+    public void givenCommandCall_whenHandleCorrectCommandCall_shouldTriggerServiceAndNotThrow() {
+        CommandCall commandCall = new CommandCall(0L, 123L, 143L, new String[]{"22", "USER", "222222", "USER", "createStudent", "true" });
+        final Long issuerId = 22L;
+        assertDoesNotThrow(() -> deleteAccessRuleHandler.handle(commandCall));
+        verify(accessRuleService).existsById(eq(issuerId), eq(IssuerType.USER), any(), any());
+        verify(accessRuleService).deleteById(eq(issuerId), eq(IssuerType.USER), any(), any());
+    }
+
+    @Test
+    public void givenCommandCall_whenAccessRuleDoesNotExist_shouldTriggerServiceAndThrowNotFound() {
+        CommandCall commandCall = new CommandCall(0L, 123L, 143L, new String[]{"30", "DEPARTMENT", "222222", "USER", "createStudent", "true" });
+        final Long issuerId = 30L;
+        assertThrows(NotFoundException.class, () -> deleteAccessRuleHandler.handle(commandCall));
+        verify(accessRuleService).existsById(eq(issuerId), eq(IssuerType.DEPARTMENT), any(), any());
+        verify(accessRuleService, times(0)).deleteById(eq(issuerId), eq(IssuerType.USER), any(), any());
     }
 
 }
