@@ -17,8 +17,6 @@ public class BeanConfiguration {
 
     private static final String ORGANIZATIONS_URL = "";
 
-
-    // todo: add your handler as a parameter of the method and add its instance to the map
     @Bean
     public Map<Long, CommandHandler> getCommandHandlerMap(OtherCommandHandler otherCommandHandler,
                                                           CreateAccessRuleHandler createAccessRuleHandler,
