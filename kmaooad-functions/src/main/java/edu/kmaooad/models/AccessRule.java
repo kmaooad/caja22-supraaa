@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
-@Setter
 @Document
 public class AccessRule {
 
@@ -16,8 +15,8 @@ public class AccessRule {
 
     public AccessRule() {}
 
-    public AccessRule(Long departmentId, IssuerType issuerType, Long resourceId, Long commandId, boolean allowed) {
-        this.id = new AccessRuleCompositeKey(departmentId, issuerType, resourceId, commandId);
+    public AccessRule(Long issuerId, IssuerType issuerType, Long resourceId, Long commandId, boolean allowed) {
+        this.id = new AccessRuleCompositeKey(issuerId, issuerType, resourceId, commandId);
         this.allowed = allowed;
     }
 
