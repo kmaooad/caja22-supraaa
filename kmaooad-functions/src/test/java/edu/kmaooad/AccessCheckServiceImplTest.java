@@ -29,6 +29,23 @@ class AccessCheckServiceImplTest {
     private final AccessCheckService accessCheckService = new AccessCheckServiceImpl(banUserService, banDepartmentService,
             banOrganizationService, accessRuleService, orgsWebClient, resourceService);
 
+    @Test
+    @SneakyThrows
+    void whenUserIsBannedThenAccessFalse_ByRealResourceId(){
+        Long userId = 1L;
+        Long resourceId = 2L;
+        Long commandId = 3L;
+        Long realDepId = 4L;
+        ResourceType resourceType = ResourceType.DEPARTMENT;
+
+        Resource resource = new Resource();
+        resource.setId(resourceId);
+        when(resourceService.getResourceByRealIdAndType(realDepId, resourceType)).thenReturn(resource);
+
+        when(banUserService.isUserBanned(userId)).thenReturn(true);
+
+        assertThat(accessCheckService.hasAccess(userId, realDepId, resourceType, commandId)).isFalse();
+    }
 
     @Test
     @SneakyThrows

@@ -9,9 +9,7 @@ import com.microsoft.azure.functions.annotation.HttpTrigger;
 import edu.kmaooad.exceptions.EmptyRequestBodyException;
 import edu.kmaooad.exceptions.IncorrectRequestBodyException;
 import edu.kmaooad.models.BotUpdate;
-
 import org.springframework.cloud.function.adapter.azure.FunctionInvoker;
-
 
 import java.util.Optional;
 
