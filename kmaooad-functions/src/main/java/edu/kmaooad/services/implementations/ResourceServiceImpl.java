@@ -22,12 +22,11 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource createResource(Long id, Long realId, ResourceType type) throws Exception {
-        if (id == null) throw new IncorrectResourceParamsException("id", "null");
+    public Resource createResource(Long realId, ResourceType type) throws Exception {
         if (realId == null) throw new IncorrectResourceParamsException("realId", "null");
         if (type == null) throw new IncorrectResourceParamsException("type", "null");
         if (!isUniqueComposite(realId, type)) throw new ResourceCompositeFieldNotUniqueException();
-        return resourceRepository.save(new Resource(id, realId, type));
+        return resourceRepository.save(new Resource(null, realId, type));
     }
 
     @Override
