@@ -3,15 +3,25 @@ package edu.kmaooad;
 import edu.kmaooad.exceptions.IncorrectCommandParamsException;
 import edu.kmaooad.exceptions.NotFoundException;
 import edu.kmaooad.models.Command;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
+import java.util.List;
 
 public class CommandServiceTest extends BaseTest {
+
+
+    private List<Command> commands;
+
+    @BeforeEach
+    public void beforeEach() {
+        commands = commandRepository.findAll();
+        commandRepository.deleteAll();
+    }
 
     @AfterEach
     public void afterEach() {
         commandRepository.deleteAll();
+        commandRepository.saveAll(commands);
     }
 
     @Test
@@ -30,7 +40,7 @@ public class CommandServiceTest extends BaseTest {
         Long id = null;
         String commandName = "name";
         String functionUrl = "functionUrl";
-        Assertions.assertThrows(IncorrectCommandParamsException.class, () -> {commandService.createCommand(id, commandName, functionUrl);});
+        Assertions.assertThrows(IncorrectCommandParamsException.class, () -> commandService.createCommand(id, commandName, functionUrl));
     }
 
     @Test
@@ -38,7 +48,7 @@ public class CommandServiceTest extends BaseTest {
         Long id = 0L;
         String commandName = null;
         String functionUrl = "functionUrl";
-        Assertions.assertThrows(IncorrectCommandParamsException.class, () -> {commandService.createCommand(id, commandName, functionUrl);});
+        Assertions.assertThrows(IncorrectCommandParamsException.class, () -> commandService.createCommand(id, commandName, functionUrl));
     }
 
     @Test
@@ -67,11 +77,11 @@ public class CommandServiceTest extends BaseTest {
         String functionUrl = "functionUrl";
         String newCommandName = "name1";
         String newFunctionUrl = "functionUrl1";
-        Assertions.assertThrows(NotFoundException.class, () -> {commandService.getCommandById(id);});
+        Assertions.assertThrows(NotFoundException.class, () -> commandService.getCommandById(id));
         commandService.createCommand(id, commandName, functionUrl);
         Command command = commandService.getCommandById(id);
         Assertions.assertNotNull(command);
-        Assertions.assertThrows(NotFoundException.class, () -> {commandService.updateCommand(newId, newCommandName, newFunctionUrl);});
+        Assertions.assertThrows(NotFoundException.class, () -> commandService.updateCommand(newId, newCommandName, newFunctionUrl));
     }
 
     @Test
